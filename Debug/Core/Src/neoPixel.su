@@ -1,0 +1,6 @@
+neoPixel.c:43:6:set_RGBW	16	static
+neoPixel.c:53:6:set_RGB	16	static
+neoPixel.c:63:6:set_all_RGBW	24	static
+neoPixel.c:77:6:set_all_RGB	24	static
+neoPixel.c:91:6:renderPixels	16	static
+neoPixel.c:132:6:HAL_TIM_PWM_PulseFinishedCallback	16	static
