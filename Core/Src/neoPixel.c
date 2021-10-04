@@ -30,8 +30,8 @@ extern DMA_HandleTypeDef hdma_tim2_ch1;
 #define LO (34)
 #define NUM_PIXELS (3)
 
-#define BYTES_PER_PIXEL (4)			//sk6812
-//#define BYTES_PER_PIXEL (3)		//ws2812
+//#define BYTES_PER_PIXEL (4)			//sk6812
+#define BYTES_PER_PIXEL (3)		//ws2812
 #define RST (64)					//sk8612
 //#define RST (48)					//ws2812
 
@@ -42,8 +42,8 @@ uint32_t PWM_data [DATA_LENGTH] = {0};
 
 void set_RGBW(uint8_t p, uint8_t r, uint8_t g, uint8_t b, uint8_t w){
 
-	RGB_data [(p * BYTES_PER_PIXEL)] = r;
-	RGB_data [(p * BYTES_PER_PIXEL) + 1] = g;
+	RGB_data [(p * BYTES_PER_PIXEL)] = g;
+	RGB_data [(p * BYTES_PER_PIXEL) + 1] = r;
 	RGB_data [(p * BYTES_PER_PIXEL) + 2] = b;
 	if (BYTES_PER_PIXEL == 4){
 		RGB_data [(p * BYTES_PER_PIXEL) + 3] = w;
@@ -52,8 +52,8 @@ void set_RGBW(uint8_t p, uint8_t r, uint8_t g, uint8_t b, uint8_t w){
 
 void set_RGB(uint8_t p, uint8_t r, uint8_t g, uint8_t b){
 
-	RGB_data [(p * BYTES_PER_PIXEL)] = r;
-	RGB_data [(p * BYTES_PER_PIXEL) + 1] = g;
+	RGB_data [(p * BYTES_PER_PIXEL)] = g;
+	RGB_data [(p * BYTES_PER_PIXEL) + 1] = r;
 	RGB_data [(p * BYTES_PER_PIXEL) + 2] = b;
 	if (BYTES_PER_PIXEL == 4){
 		RGB_data [(p * BYTES_PER_PIXEL) + 3] = 0;
@@ -65,8 +65,8 @@ void set_all_RGBW(uint8_t r, uint8_t g, uint8_t b, uint8_t w){
 	uint8_t p;
 
 	for (p = 0; p < NUM_PIXELS; p++){				//going through the pixels
-		RGB_data[(p * BYTES_PER_PIXEL)] = r;
-		RGB_data[(p * BYTES_PER_PIXEL) + 1] = g;
+		RGB_data[(p * BYTES_PER_PIXEL)] = g;
+		RGB_data[(p * BYTES_PER_PIXEL) + 1] = r;
 		RGB_data[(p * BYTES_PER_PIXEL) + 2] = b;
 		if (BYTES_PER_PIXEL == 4){
 			RGB_data[(p * BYTES_PER_PIXEL) + 3] = w;
@@ -79,8 +79,8 @@ void set_all_RGB(uint8_t r, uint8_t g, uint8_t b){
 	uint8_t p;
 
 	for (p = 0; p < NUM_PIXELS; p++){				//going through the pixels
-		RGB_data[(p * BYTES_PER_PIXEL)] = r;
-		RGB_data[(p * BYTES_PER_PIXEL) + 1] = g;
+		RGB_data[(p * BYTES_PER_PIXEL)] = g;
+		RGB_data[(p * BYTES_PER_PIXEL) + 1] = r;
 		RGB_data[(p * BYTES_PER_PIXEL) + 2] = b;
 		if (BYTES_PER_PIXEL == 4){
 			RGB_data[(p * BYTES_PER_PIXEL) + 3] = 0;
@@ -93,20 +93,20 @@ void renderPixels(){
 	uint8_t i, pc, rs, gs, bs, ws;
 
 	for (pc = 0; pc < NUM_PIXELS; pc++){
-		rs = RGB_data [(pc * BYTES_PER_PIXEL)];
-		gs = RGB_data [(pc * BYTES_PER_PIXEL) + 1];
+		gs = RGB_data [(pc * BYTES_PER_PIXEL)];
+		rs = RGB_data [(pc * BYTES_PER_PIXEL) + 1];
 		bs = RGB_data [(pc * BYTES_PER_PIXEL) + 2];
 		if (BYTES_PER_PIXEL == 4){
 			ws = RGB_data [(pc * BYTES_PER_PIXEL) + 3];
 		}
 
 		for (i = 0; i < 8; i++){					//r
-			PWM_data [i + (pc * (BYTES_PER_PIXEL*8))] = (rs & mask) ? HI : LO;
-			rs <<= 1;
-		}
-		for (i = 8; i < 16; i++){					//g
 			PWM_data [i + (pc * (BYTES_PER_PIXEL*8))] = (gs & mask) ? HI : LO;
 			gs <<= 1;
+		}
+		for (i = 8; i < 16; i++){					//g
+			PWM_data [i + (pc * (BYTES_PER_PIXEL*8))] = (rs & mask) ? HI : LO;
+			rs <<= 1;
 		}
 		for (i = 16; i < 24; i++){					//b
 			PWM_data [i + (pc * (BYTES_PER_PIXEL*8))] = (bs & mask) ? HI : LO;
