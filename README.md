@@ -1,7 +1,5 @@
 # STM32_NeoPixel
 
-++++Work in Progress ant untested at the moment++++
-
 My first try to control NeoPixel LED's with SK6812 or WS2812. 
 
 I tried https://github.com/hey-frnk/STM32_HAL_NeoPixel
